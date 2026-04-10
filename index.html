@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Hub</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        /* NAVIGATION BAR */
+        .navbar {
+            background-color: #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            display: inline;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            color: #38bdf8;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #94a3b8;
+        }
+
+        /* CONTENT */
+        .content {
+            padding: 40px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .card h2 {
+            color: #38bdf8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <div class="navbar">
+        <div class="logo">TRADING HUB</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Options Trading</a></li>
+            <li><a href="#">Strategies</a></li>
+            <li><a href="#">Markets</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>TRADING HUB</h1>
+        <p>Learn Options Trading, Strategies & Market Basics</p>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="card">
+            <h2>What is Options Trading?</h2>
+            <p>Options trading allows investors to trade contracts that derive value from underlying assets like stocks.</p>
+        </div>
+
+        <div class="card">
+            <h2>Call & Put Options</h2>
+            <p>Call options are used when expecting price rise, while put options are used when expecting price fall.</p>
+        </div>
+
+        <div class="card">
+            <h2>Key Terminology</h2>
+            <p>Strike price, premium, expiry date, Greeks, IV, OI, and volume are essential concepts in options trading.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
