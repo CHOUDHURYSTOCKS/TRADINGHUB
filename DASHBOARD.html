@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Hub</title>
+<link rel="icon" href="logo.png">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
+        background-size: 600% 600%;
+        animation: gradientBG 10s ease infinite;
+        color: white;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: #0ff;
+        text-shadow:
+            0 0 5px #0ff,
+            0 0 10px #0ff,
+            0 0 20px #0ff,
+            0 0 40px #00f;
+        animation: flicker 2s infinite alternate;
+    }
+
+    @keyframes flicker {
+        from { opacity: 0.9; }
+        to { opacity: 1; }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        width: 80%;
+        max-width: 800px;
+    }
+
+    .btn {
+        padding: 20px;
+        text-align: center;
+        text-decoration: none;
+        color: #0ff;
+        border: 2px solid #0ff;
+        border-radius: 10px;
+        transition: 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, transparent, #0ff, transparent);
+        opacity: 0;
+        transition: 0.5s;
+    }
+
+    .btn:hover::before {
+        opacity: 1;
+        animation: shine 1s linear;
+    }
+
+    @keyframes shine {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(100%); }
+    }
+
+    .btn:hover {
+        color: #000;
+        background: #0ff;
+        box-shadow:
+            0 0 10px #0ff,
+            0 0 20px #0ff,
+            0 0 40px #0ff;
+        transform: scale(1.1);
+    }
+
+    @media(max-width: 768px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Trading Hub</h1>
+
+<div class="grid">
+    <a href="dash1.html" class="btn" target="_blank">Link 1</a>
+    <a href="dash2.html" class="btn" target="_blank">Link 2</a>
+    <a href="dash3.html" class="btn" target="_blank">Link 3</a>
+    <a href="dash4.html" class="btn" target="_blank">Link 4</a>
+    <a href="dash5.html" class="btn" target="_blank">Link 5</a>
+    <a href="dash6.html" class="btn" target="_blank">Link 6</a>
+    <a href="dash7.html" class="btn" target="_blank">Link 7</a>
+    <a href="dash8.html" class="btn" target="_blank">Link 8</a>
+    <a href="dash9.html" class="btn" target="_blank">Link 9</a>
+    <a href="dash10.html" class="btn" target="_blank">Link 10</a>
+    <a href="dash11.html" class="btn" target="_blank">Link 11</a>
+    <a href="#" class="btn" target="_blank">Link 12</a>
+</div>
+
+</body>
+</html>
