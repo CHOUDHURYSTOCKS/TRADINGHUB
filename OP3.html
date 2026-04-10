@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Options Trading Strategies Guide</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #0f172a;
+    color: #f1f5f9;
+}
+
+header {
+    background: linear-gradient(90deg, #2563eb, #1e3a8a);
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.container {
+    padding: 30px;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background: #334155;
+}
+
+h2 {
+    color: #38bdf8;
+}
+
+ul {
+    line-height: 1.8;
+}
+
+.tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 6px;
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+.bullish { background: #16a34a; }
+.bearish { background: #dc2626; }
+.neutral { background: #f59e0b; }
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: #020617;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📈 Options Trading Strategies</h1>
+    <p>Beginner to Advanced Guide</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>🧭 What Are Options?</h2>
+        <p>Options are contracts giving the right to buy or sell an asset.</p>
+        <ul>
+            <li><b>Call Option:</b> Right to BUY</li>
+            <li><b>Put Option:</b> Right to SELL</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>🟢 Beginner Strategies</h2>
+
+        <h3>Long Call <span class="tag bullish">Bullish</span></h3>
+        <ul>
+            <li>Buy a Call option</li>
+            <li>Profit when price rises</li>
+            <li>Risk: Limited | Reward: Unlimited</li>
+        </ul>
+
+        <h3>Long Put <span class="tag bearish">Bearish</span></h3>
+        <ul>
+            <li>Buy a Put option</li>
+            <li>Profit when price falls</li>
+        </ul>
+
+        <h3>Covered Call <span class="tag neutral">Neutral</span></h3>
+        <ul>
+            <li>Hold stock + sell call</li>
+            <li>Earn premium income</li>
+        </ul>
+
+        <h3>Protective Put</h3>
+        <ul>
+            <li>Buy put for downside protection</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>🟡 Intermediate Strategies</h2>
+
+        <h3>Bull Call Spread</h3>
+        <ul>
+            <li>Buy lower strike call</li>
+            <li>Sell higher strike call</li>
+        </ul>
+
+        <h3>Bear Put Spread</h3>
+        <ul>
+            <li>Buy higher strike put</li>
+            <li>Sell lower strike put</li>
+        </ul>
+
+        <h3>Iron Condor <span class="tag neutral">Sideways</span></h3>
+        <ul>
+            <li>Sell OTM call & put</li>
+            <li>Buy further OTM options</li>
+        </ul>
+
+        <h3>Straddle</h3>
+        <ul>
+            <li>Buy call + put (same strike)</li>
+        </ul>
+
+        <h3>Strangle</h3>
+        <ul>
+            <li>Buy OTM call + put</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>🔴 Advanced Strategies</h2>
+
+        <h3>Butterfly Spread</h3>
+        <ul>
+            <li>Buy 1 ITM call</li>
+            <li>Sell 2 ATM calls</li>
+            <li>Buy 1 OTM call</li>
+        </ul>
+
+        <h3>Calendar Spread</h3>
+        <ul>
+            <li>Sell near-term option</li>
+            <li>Buy long-term option</li>
+        </ul>
+
+        <h3>Iron Butterfly</h3>
+        <ul>
+            <li>Sell ATM call & put</li>
+            <li>Buy OTM options</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>📊 Strategy Selector</h2>
+        <ul>
+            <li>Bullish → Long Call</li>
+            <li>Bearish → Long Put</li>
+            <li>Sideways → Iron Condor</li>
+            <li>Volatile → Straddle</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>⚠️ Risk Management</h2>
+        <ul>
+            <li>Risk only 2–5% per trade</li>
+            <li>Always use stop-loss</li>
+            <li>Avoid overtrading</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="footer">
+    <p>🚀 Developed for Professional Options Traders</p>
+</div>
+
+</body>
+</html>

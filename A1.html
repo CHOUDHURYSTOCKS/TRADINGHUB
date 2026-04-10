@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TRADING HUB</title>
+
+<style>
+/* ===== RESET ===== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+  display:flex;
+  min-height:100vh;
+  background: radial-gradient(circle at top left,#0f172a,#020617);
+  color:#fff;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:250px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  animation: slideIn 1s ease;
+}
+
+@keyframes slideIn{
+  from{ transform: translateX(-100%); opacity:0;}
+  to{ transform: translateX(0); opacity:1;}
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:20px;
+  font-weight:bold;
+  color:#00f5ff;
+}
+
+.logo-box{
+  width:30px;
+  height:30px;
+  border-radius:8px;
+  background: linear-gradient(45deg,#00f5ff,#7c3aed);
+  animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate{
+  from{transform:rotate(0);}
+  to{transform:rotate(360deg);}
+}
+
+.menu a{
+  display:block;
+  padding:10px;
+  color:white;
+  text-decoration:none;
+  border-radius:8px;
+  transition:0.3s;
+}
+
+.menu a:hover{
+  background:#7c3aed;
+  transform: translateX(5px);
+}
+
+/* ===== MAIN AREA ===== */
+.main{
+  flex:1;
+  padding:25px;
+  overflow-y:auto;
+}
+
+/* HEADER */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.title{
+  font-size:28px;
+  background: linear-gradient(90deg,#00f5ff,#7c3aed,#ff00c8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* DROPDOWN */
+.dropdown{
+  position:relative;
+  z-index: 5;
+}
+
+.dropbtn{
+  padding:12px 18px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(45deg,#00f5ff,#7c3aed);
+  color:white;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.dropbtn:hover{
+  transform:scale(1.05);
+}
+
+.dropdown-content{
+  display:none;
+  position:absolute;
+  top:45px;
+  right:0;
+  background:rgba(0,0,0,0.9);
+  border-radius:10px;
+  min-width:180px;
+  overflow:hidden;
+}
+
+.dropdown-content a{
+  display:block;
+  padding:10px;
+  color:white;
+  text-decoration:none;
+}
+
+.dropdown-content a:hover{
+  background:#7c3aed;
+}
+
+.dropdown:hover .dropdown-content{
+  display:block;
+}
+
+/* BUTTON ROW */
+.btn-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.btn{
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  color:white;
+  background:linear-gradient(45deg,#ff00c8,#7c3aed);
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform: translateY(-3px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.4);
+}
+
+/* CARDS */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:15px;
+}
+
+.card{
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  padding:20px;
+  border-radius:15px;
+  transition:0.3s;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.card:hover{
+  transform: scale(1.03);
+  background: rgba(255,255,255,0.1);
+}
+
+.card h3{
+  color:#00f5ff;
+  margin-bottom:10px;
+}
+
+/* FLOAT ANIMATION */
+.float{
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="logo">
+    <div class="logo-box"></div>
+    TRADING HUB
+  </div>
+
+  <div class="menu">
+    <a href="#">Dashboard</a>
+    <a href="#">Markets</a>
+    <a href="#">Watchlist</a>
+    <a href="#">Learn Trading</a>
+    <a href="#">Settings</a>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="title float">TRADING HUB</div>
+
+    <div class="dropdown">
+      <button class="dropbtn">Explore ▼</button>
+      <div class="dropdown-content">
+        <a href="OP5.html" target="_blank">NIFTY 50 Intraday Option Metrics</a>
+        <a href="OP4.html" target="_blank">Indian Stock Market Options Trading</a>
+        <a href="OP6.html" target="_blank">OPTION Analysis for Day Trading</a>
+        <a href="OP7.html" target="_blank">Option Chain Analysis Guide</a>
+        <a href="OP8.html" target="_blank">Option Chain Analysis Dashboard</a>
+        <a href="OP9.html" target="_blank">Options Trading Pro (India)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="btn-row">
+    <button class="btn">Call Option</button>
+    <button class="btn">Put Option</button>
+    <button class="btn">Straddle</button>
+    <button class="btn">Iron Condor</button>
+    <button class="btn">P&L Calculator</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="grid">
+
+    <div class="card">
+      <h3>Basics of Options</h3>
+      <p>Options give you the right to buy or sell assets at a fixed price before expiry. Calls = buy, Puts = sell.</p>
+    </div>
+
+    <div class="card">
+      <h3>How Pricing Works</h3>
+      <p>Premium depends on volatility, time decay (theta), strike price, and market demand.</p>
+    </div>
+
+    <div class="card">
+      <h3>Risk Management</h3>
+      <p>Never risk more than 1–2% per trade. Always use stop-loss and hedge positions properly.</p>
+    </div>
+
+    <div class="card">
+      <h3>Advanced Strategies</h3>
+      <p>Use spreads, straddles, and iron condors to profit from volatility and market direction.</p>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

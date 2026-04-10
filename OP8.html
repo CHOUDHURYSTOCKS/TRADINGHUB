@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option Chain Analysis Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #f4f7f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  header {
+    background: #0d47a1;
+    color: #fff;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  header h1 { margin: 0; font-size: 2.5rem; }
+  header p { margin-top: 10px; font-size: 1.2rem; color: #cfd8dc; }
+
+  section { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+  h2 { color: #0d47a1; border-bottom: 2px solid #0d47a1; padding-bottom: 10px; margin-bottom: 20px; }
+
+  .step { background: #e3f2fd; padding: 20px; margin-bottom: 20px; border-left: 5px solid #0d47a1; border-radius: 5px; }
+  .step h3 { margin-top: 0; }
+  .highlight { font-weight: bold; color: #0d47a1; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+  table th, table td { border: 1px solid #ddd; padding: 12px 15px; text-align: center; }
+  table th { background: #0d47a1; color: #fff; }
+  table tr:nth-child(even) { background: #f2f2f2; }
+
+  canvas { margin-bottom: 40px; background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+  footer { background: #0d47a1; color: #fff; text-align: center; padding: 20px; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Option Chain Analysis Dashboard</h1>
+  <p>Interactive Charts & Cheat Sheet for Traders</p>
+</header>
+
+<section>
+  <h2>Step-by-Step Guide</h2>
+  <div class="step">
+    <h3>Step 1: Understand the Option Chain</h3>
+    <p>Look at Strike Prices, Call/Put Prices, Open Interest (OI), Volume, and Implied Volatility (IV).</p>
+  </div>
+  <div class="step">
+    <h3>Step 2: Identify Key Levels</h3>
+    <p>Determine <span class="highlight">ATM, ITM, and OTM strikes</span> to locate potential trading zones.</p>
+  </div>
+  <div class="step">
+    <h3>Step 3: Analyze Open Interest</h3>
+    <p>High Call OI = resistance, High Put OI = support. Helps identify key price levels.</p>
+  </div>
+  <div class="step">
+    <h3>Step 4: Call/Put Ratio (PCR)</h3>
+    <p>PCR = Total Put OI / Total Call OI. Interpretation: PCR &lt; 1 = bullish, PCR &gt; 1 = bearish.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Option Chain Cheat Sheet Example</h2>
+  <table>
+    <tr>
+      <th>Strike Price</th><th>Call OI</th><th>Call Price</th><th>Put Price</th><th>Put OI</th>
+    </tr>
+    <tr><td>490</td><td>800</td><td>2</td><td>15</td><td>1500</td></tr>
+    <tr><td>495</td><td>1200</td><td>5</td><td>12</td><td>1800</td></tr>
+    <tr><td>500</td><td>2500</td><td>10</td><td>8</td><td>3000</td></tr>
+    <tr><td>505</td><td>2000</td><td>15</td><td>5</td><td>1200</td></tr>
+    <tr><td>510</td><td>1500</td><td>20</td><td>3</td><td>900</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Open Interest Chart</h2>
+  <canvas id="oiChart" height="400"></canvas>
+
+  <h2>PCR Indicator</h2>
+  <canvas id="pcrChart" height="200"></canvas>
+</section>
+
+<footer>
+  &copy; 2026 Option Chain Insights. All rights reserved.
+</footer>
+
+<script>
+  // Option Chain Data
+  const strikes = [490, 495, 500, 505, 510];
+  const callOI = [800, 1200, 2500, 2000, 1500];
+  const putOI = [1500, 1800, 3000, 1200, 900];
+
+  // Open Interest Chart
+  const ctx = document.getElementById('oiChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: strikes,
+      datasets: [
+        {
+          label: 'Call OI',
+          data: callOI,
+          backgroundColor: '#1976d2'
+        },
+        {
+          label: 'Put OI',
+          data: putOI,
+          backgroundColor: '#d32f2f'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' },
+        title: { display: true, text: 'Open Interest vs Strike Price' }
+      },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: 'Open Interest' } },
+        x: { title: { display: true, text: 'Strike Price' } }
+      }
+    }
+  });
+
+  // PCR Chart
+  const totalCallOI = callOI.reduce((a,b)=>a+b,0);
+  const totalPutOI = putOI.reduce((a,b)=>a+b,0);
+  const PCR = (totalPutOI/totalCallOI).toFixed(2);
+
+  const ctx2 = document.getElementById('pcrChart').getContext('2d');
+  new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+      labels: ['Call OI', 'Put OI'],
+      datasets: [{
+        data: [totalCallOI, totalPutOI],
+        backgroundColor: ['#1976d2','#d32f2f']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'bottom' },
+        title: { display: true, text: `Call/Put OI Ratio (PCR = ${PCR})` }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

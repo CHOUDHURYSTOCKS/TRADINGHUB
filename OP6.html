@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Option Analysis for Day Trading</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: #f5f7fa; color: #1e1e2f; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+
+        /* Container */
+        .container { max-width: 1000px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+
+        /* Header */
+        h1 { text-align: center; font-size: 2.5rem; color: #0d47a1; margin-bottom: 20px; }
+        h2 { color: #1565c0; margin-top: 30px; margin-bottom: 15px; font-size: 1.8rem; border-bottom: 2px solid #e3f2fd; padding-bottom: 5px; }
+
+        /* Subheadings */
+        h3 { color: #0d47a1; margin-top: 20px; margin-bottom: 10px; font-size: 1.3rem; }
+        p { margin-bottom: 10px; }
+        ul { margin: 10px 0 15px 20px; }
+        li { margin-bottom: 8px; }
+
+        /* Highlighted tips */
+        .tip { background: #e3f2fd; border-left: 5px solid #1565c0; padding: 10px 15px; margin: 10px 0; border-radius: 5px; }
+        .warning { background: #ffebee; border-left: 5px solid #d32f2f; padding: 10px 15px; margin: 10px 0; border-radius: 5px; }
+        .pro-tip { background: #e8f5e9; border-left: 5px solid #2e7d32; padding: 10px 15px; margin: 10px 0; border-radius: 5px; }
+
+        /* Table styling */
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #1565c0; color: #fff; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+
+        /* Emoji icons */
+        .emoji { font-size: 1.2rem; margin-right: 5px; }
+
+        /* Sections */
+        .section { margin-bottom: 25px; }
+
+        /* Responsive */
+        @media(max-width: 768px){
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            h3 { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OPTION Analysis for Day Trading</h1>
+
+        <div class="section">
+            <h2>Core Option Chain Terms (Simplified for Trading)</h2>
+
+            <h3>1. Max Pain (Option Pain Theory)</h3>
+            <p>• Definition: The strike price where option buyers lose the most money and option sellers gain the most.</p>
+            <p>• Calculated based on total open interest (OI) of calls & puts.</p>
+            <div class="tip">
+                <span class="emoji">👉</span> <strong>Trading Insight:</strong><br>
+                Price often moves toward Max Pain near expiry (especially weekly expiry for Nifty). Acts like a magnet level.
+            </div>
+            <div class="tip">
+                <span class="emoji">👉</span> <strong>Use:</strong><br>
+                If market is far from Max Pain → expect pull toward it. Near expiry → good for range-bound strategies.
+            </div>
+
+            <h3>2. OI (Open Interest)</h3>
+            <p>• Definition: Total number of outstanding option contracts (not yet squared off).</p>
+            <div class="tip">
+                <span class="emoji">👉</span> <strong>Interpretation:</strong> High OI at a strike = strong support/resistance
+            </div>
+            <div class="tip">
+                <span class="emoji">👉</span> <strong>Use:</strong> Highest Call OI → Resistance; Highest Put OI → Support
+            </div>
+
+            <h3>3. Change in OI (ΔOI)</h3>
+            <p>• Definition: Increase or decrease in OI during the session.</p>
+            <div class="tip">Very important for intraday traders.</div>
+
+            <table>
+                <tr>
+                    <th>Price Move</th>
+                    <th>OI Change</th>
+                    <th>Meaning</th>
+                </tr>
+                <tr>
+                    <td>↑ Price</td>
+                    <td>↑ OI</td>
+                    <td>Long buildup → Bullish</td>
+                </tr>
+                <tr>
+                    <td>↓ Price</td>
+                    <td>↑ OI</td>
+                    <td>Short buildup → Bearish</td>
+                </tr>
+                <tr>
+                    <td>↑ Price</td>
+                    <td>↓ OI</td>
+                    <td>Short covering → Bullish reversal</td>
+                </tr>
+                <tr>
+                    <td>↓ Price</td>
+                    <td>↓ OI</td>
+                    <td>Long unwinding → Bearish reversal</td>
+                </tr>
+            </table>
+
+            <div class="tip">
+                <span class="emoji">👉</span> <strong>Use:</strong> Helps identify who is in control (buyers/sellers)
+            </div>
+
+            <h3>4. PCR (Put Call Ratio)</h3>
+            <p>• Definition: Ratio of total Put OI to Call OI.</p>
+            <table>
+                <tr>
+                    <th>PCR Value</th>
+                    <th>Meaning</th>
+                </tr>
+                <tr>
+                    <td>> 1</td>
+                    <td>More puts → Bullish sentiment</td>
+                </tr>
+                <tr>
+                    <td>< 1</td>
+                    <td>More calls → Bearish sentiment</td>
+                </tr>
+                <tr>
+                    <td>~1</td>
+                    <td>Neutral</td>
+                </tr>
+            </table>
+            <div class="tip">
+                <span class="emoji">👉</span> <strong>Advanced View:</strong> Very high PCR (>1.5) → Over-bullish → possible reversal; Very low PCR (<0.7) → Over-bearish → bounce possible
+            </div>
+
+            <h3>5. Strike Price Importance</h3>
+            <p>• ATM (At The Money), ITM (In The Money), OTM (Out of The Money)</p>
+            <div class="tip">
+                <span class="emoji">👉</span> <strong>Use:</strong> ATM strikes → highest activity; OTM writing → common for intraday option sellers
+            </div>
+
+            <h3>6. Call Writing vs Put Writing</h3>
+            <p>📉 Call Writing: Bearish / resistance formation, When call OI increases</p>
+            <p>📈 Put Writing: Bullish / support formation, When put OI increases</p>
+            <div class="tip">
+                <span class="emoji">👉</span> <strong>Golden Rule:</strong> Follow where writers are building positions, not buyers
+            </div>
+
+            <h3>7. OI Build-up Zones (Support & Resistance)</h3>
+            <div class="tip">
+                <span class="emoji">👉</span> Example: 22,000 CE high OI → resistance, 21,800 PE high OI → support. Market tends to move within these zones unless breakout occurs.
+            </div>
+
+            <h3>8. Unwinding</h3>
+            <p>• When OI decreases</p>
+            <div class="tip">
+                <span class="emoji">👉</span> Types: Call unwinding → bullish, Put unwinding → bearish
+            </div>
+
+            <h3>9. Short Covering</h3>
+            <p>• When traders who sold earlier exit positions</p>
+            <div class="tip">
+                <span class="emoji">👉</span> Signal: Price ↑ + OI ↓ → fast upward move possible
+            </div>
+
+            <h3>10. Long Liquidation</h3>
+            <p>• Price ↓ + OI ↓</p>
+            <div class="tip">
+                <span class="emoji">👉</span> Signal: Weakness, but not strong bearish trend
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Practical Daily Trading Strategy (Simple Framework)</h2>
+            <h3>Step 1: Identify Range</h3>
+            <p>• Highest Call OI = Resistance</p>
+            <p>• Highest Put OI = Support</p>
+            <div class="tip">Trade inside range unless breakout</div>
+
+            <h3>Step 2: Track Change in OI</h3>
+            <p>• Where is fresh writing happening? That level becomes strong S/R</p>
+
+            <h3>Step 3: Watch PCR</h3>
+            <p>• Extreme PCR → possible reversal</p>
+
+            <h3>Step 4: Check Max Pain (especially expiry day)</h3>
+            <p>• Expect price gravitation toward it</p>
+
+            <h3>Step 5: Combine with Price Action</h3>
+            <p>• Option chain alone is NOT enough. Confirm with:</p>
+            <ul>
+                <li>Candlestick pattern</li>
+                <li>VWAP</li>
+                <li>Trend direction</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Important Mistakes to Avoid</h2>
+            <div class="warning">
+                ❌ Blindly trading based only on PCR<br>
+                ❌ Ignoring change in OI<br>
+                ❌ Trading against strong writers<br>
+                ❌ Not considering expiry effects
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Pro Tips (Used by Experienced Traders)</h2>
+            <div class="pro-tip">
+                • Weekly expiry (Thursday) → Max Pain works best<br>
+                • Morning OI setup often traps traders → wait 30–60 mins<br>
+                • Sudden OI spikes → institutional activity<br>
+                • Combine with Bank Nifty for confirmation
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Extra Concepts Worth Following</h2>
+            <ul>
+                <li>IV (Implied Volatility)</li>
+                <li>VWAP</li>
+                <li>Delta / Gamma (advanced)</li>
+                <li>Volume + OI combination</li>
+                <li>Option Greeks (for deeper edge)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

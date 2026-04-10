@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Options Trading Pro</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #0f172a;
+    color: #fff;
+}
+
+header {
+    background: #020617;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    background: #1e293b;
+}
+
+nav button {
+    padding: 15px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+nav button:hover {
+    background: #334155;
+}
+
+.section {
+    display: none;
+    padding: 20px;
+}
+
+.active {
+    display: block;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: none;
+}
+
+button.calc {
+    background: #22c55e;
+    border: none;
+    padding: 10px;
+    color: white;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #38bdf8;
+}
+</style>
+</head>
+
+<body>
+
+<header>📊 Options Trading Pro (India)</header>
+
+<nav>
+    <button onclick="showTab('learn')">Learn</button>
+    <button onclick="showTab('trade')">Trade</button>
+    <button onclick="showTab('tools')">Tools</button>
+</nav>
+
+<!-- LEARN -->
+<div id="learn" class="section active">
+    <div class="card">
+        <h2>Basics</h2>
+        <p>Call = Bullish 📈 | Put = Bearish 📉</p>
+        <p>Index: NIFTY | BANKNIFTY</p>
+    </div>
+
+    <div class="card">
+        <h2>Strategies</h2>
+        <ul>
+            <li>Buy Call</li>
+            <li>Buy Put</li>
+            <li>Straddle</li>
+            <li>Iron Condor</li>
+        </ul>
+    </div>
+</div>
+
+<!-- TRADE -->
+<div id="trade" class="section">
+    <div class="card">
+        <h2>Simulated Trade</h2>
+
+        <label>Market</label>
+        <select id="market">
+            <option>NIFTY</option>
+            <option>BANKNIFTY</option>
+        </select>
+
+        <label>Option Type</label>
+        <select id="type">
+            <option>Call</option>
+            <option>Put</option>
+        </select>
+
+        <label>Entry Price</label>
+        <input type="number" id="entry">
+
+        <label>Exit Price</label>
+        <input type="number" id="exit">
+
+        <button class="calc" onclick="calculatePnL()">Calculate P&L</button>
+
+        <div class="result" id="pnl"></div>
+    </div>
+</div>
+
+<!-- TOOLS -->
+<div id="tools" class="section">
+    <div class="card">
+        <h2>Options Profit Calculator</h2>
+
+        <label>Premium</label>
+        <input type="number" id="premium">
+
+        <label>Lot Size</label>
+        <input type="number" id="lot" value="50">
+
+        <label>Price Move</label>
+        <input type="number" id="move">
+
+        <button class="calc" onclick="calcProfit()">Calculate Profit</button>
+
+        <div class="result" id="profit"></div>
+    </div>
+</div>
+
+<script>
+function showTab(tab) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+}
+
+function calculatePnL() {
+    let entry = document.getElementById('entry').value;
+    let exit = document.getElementById('exit').value;
+
+    let pnl = (exit - entry) * 50;
+    document.getElementById('pnl').innerText = "P&L: ₹ " + pnl;
+}
+
+function calcProfit() {
+    let premium = document.getElementById('premium').value;
+    let lot = document.getElementById('lot').value;
+    let move = document.getElementById('move').value;
+
+    let profit = (move - premium) * lot;
+    document.getElementById('profit').innerText = "Profit: ₹ " + profit;
+}
+</script>
+
+</body>
+</html>

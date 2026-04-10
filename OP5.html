@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIFTY 50 Intraday Option Metrics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a73e8;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #1a73e8;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+        }
+
+        p {
+            margin: 5px 0 15px 0;
+        }
+
+        ul {
+            margin: 10px 0 15px 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Card Layout for Metrics */
+        .metric-card {
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            transition: transform 0.2s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #0b3d91;
+        }
+
+        .formula {
+            background: #eaf1fb;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            color: #d93025;
+            font-weight: 600;
+        }
+
+        .tip {
+            background: #fff4e5;
+            border-left: 5px solid #ffa726;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        /* Practical Setup Section */
+        .setup-card {
+            background: #e8f0fe;
+            padding: 20px 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .setup-card h3 {
+            color: #0b3d91;
+        }
+
+        /* Memory Shortcut Box */
+        .memory-box {
+            background: #fce8e6;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border-left: 6px solid #d93025;
+            margin-top: 30px;
+        }
+
+        /* Responsive */
+        @media(max-width: 768px){
+            .container {
+                margin: 20px auto;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NIFTY 50 Intraday Option Metrics</h1>
+
+        <!-- PCR Card -->
+        <div class="metric-card">
+            <div class="metric-title">1. PCR (Put Call Ratio)</div>
+            <p><strong>What it is:</strong> Ratio of total Put Open Interest (OI) to Call Open Interest.</p>
+            <div class="formula">PCR = Put OI / Call OI</div>
+            <h3>Interpretation (Intraday):</h3>
+            <ul>
+                <li>PCR > 1 → More puts than calls → <span class="highlight">Bullish bias</span></li>
+                <li>PCR < 1 → More calls than puts → <span class="highlight">Bearish bias</span></li>
+            </ul>
+            <h3>Day Trading Insight:</h3>
+            <ul>
+                <li>Very high PCR (>1.5) → Market may be overly bullish → possible reversal down</li>
+                <li>Very low PCR (<0.7) → Market may be overly bearish → possible bounce</li>
+                <li>Watch PCR trend, not just value:
+                    <ul>
+                        <li>Rising PCR + rising price = strong bullish confirmation</li>
+                        <li>Falling PCR + falling price = bearish continuation</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Max Pain Card -->
+        <div class="metric-card">
+            <div class="metric-title">2. Max Pain</div>
+            <p><strong>What it is:</strong> Strike price where maximum option sellers (writers) profit and most buyers lose.</p>
+            <h3>Interpretation:</h3>
+            <ul>
+                <li>Market often gravitates toward Max Pain near expiry (especially weekly expiry in NIFTY)</li>
+                <li>Acts like a magnet price</li>
+            </ul>
+            <h3>Day Trading Use:</h3>
+            <ul>
+                <li>Price far from Max Pain → potential pull toward it</li>
+                <li>Price near Max Pain → expect range-bound movement</li>
+                <li>Combine with OI data:
+                    <ul>
+                        <li>Strong call OI above → resistance</li>
+                        <li>Strong put OI below → support</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ATM IV Card -->
+        <div class="metric-card">
+            <div class="metric-title">3. ATM IV (At-The-Money Implied Volatility)</div>
+            <p><strong>What it is:</strong> Implied volatility of the strike closest to current NIFTY price.</p>
+            <h3>Interpretation:</h3>
+            <ul>
+                <li>High ATM IV → Options expensive, big move expected, good for option sellers</li>
+                <li>Low ATM IV → Options cheap, small move expected, good for option buyers</li>
+            </ul>
+            <h3>Intraday Use:</h3>
+            <ul>
+                <li>Sudden IV spike → often before/after big move</li>
+                <li>IV crush → option premiums drop even if price moves slightly</li>
+            </ul>
+        </div>
+
+        <!-- IV Percentile Card -->
+        <div class="metric-card">
+            <div class="metric-title">4. IV Percentile (IVP)</div>
+            <p><strong>What it is:</strong> Shows where current IV stands compared to its historical range (usually 1 year). Scale: 0 to 100</p>
+            <h3>Interpretation:</h3>
+            <ul>
+                <li>IVP > 80 → IV is very high vs history → favor selling strategies</li>
+                <li>IVP < 20 → IV is very low → favor buying strategies</li>
+                <li>IVP ~50 → Neutral → no strong volatility edge</li>
+            </ul>
+            <h3>Intraday Angle:</h3>
+            <ul>
+                <li>High IVP → sell straddle/strangle (if experienced)</li>
+                <li>Low IVP → buy options before breakout</li>
+            </ul>
+        </div>
+
+        <!-- Practical Setup -->
+        <div class="setup-card">
+            <h2>Practical Intraday Setup</h2>
+
+            <h3>Bullish Setup Example:</h3>
+            <ul>
+                <li>PCR rising above 1</li>
+                <li>Price holding above strong Put OI support</li>
+                <li>Max Pain below current price (room to move up)</li>
+                <li>ATM IV moderate (not too high)</li>
+                <li>→ Consider buying CE or bull spread</li>
+            </ul>
+
+            <h3>Bearish Setup Example:</h3>
+            <ul>
+                <li>PCR falling below 1</li>
+                <li>Strong Call OI resistance above</li>
+                <li>Price below Max Pain</li>
+                <li>IV rising (fear building)</li>
+                <li>→ Consider buying PE or bear spread</li>
+            </ul>
+
+            <h3>Range-Bound Setup:</h3>
+            <ul>
+                <li>Price near Max Pain</li>
+                <li>PCR stable around 1</li>
+                <li>High IVP</li>
+                <li>→ Favor option selling (iron fly / straddle)</li>
+            </ul>
+        </div>
+
+        <!-- Memory Shortcut -->
+        <div class="memory-box">
+            <h3>Simple Memory Shortcut:</h3>
+            <ul>
+                <li>PCR → Direction bias</li>
+                <li>Max Pain → Magnet level</li>
+                <li>ATM IV → Cost of options</li>
+                <li>IV Percentile → Strategy choice (buy vs sell)</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>

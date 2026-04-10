@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option Chain Analysis Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #f4f7f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  header {
+    background: #0d47a1;
+    color: #fff;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+  }
+  header p {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #cfd8dc;
+  }
+  section {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  h2 {
+    color: #0d47a1;
+    border-bottom: 2px solid #0d47a1;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+  }
+  table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: center;
+  }
+  table th {
+    background: #0d47a1;
+    color: #fff;
+  }
+  table tr:nth-child(even) {
+    background: #f2f2f2;
+  }
+  .step {
+    background: #e3f2fd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 5px solid #0d47a1;
+    border-radius: 5px;
+  }
+  .step h3 {
+    margin-top: 0;
+  }
+  .highlight {
+    font-weight: bold;
+    color: #0d47a1;
+  }
+  footer {
+    background: #0d47a1;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Option Chain Analysis Guide</h1>
+  <p>Step-by-Step Professional Cheat Sheet for Traders</p>
+</header>
+
+<section>
+  <h2>Step-by-Step Option Chain Analysis</h2>
+
+  <div class="step">
+    <h3>Step 1: Understand the Option Chain</h3>
+    <p>Look at Strike Prices, Call/Put Prices, Open Interest (OI), Volume, and Implied Volatility (IV).</p>
+  </div>
+
+  <div class="step">
+    <h3>Step 2: Identify Key Levels</h3>
+    <p>Determine <span class="highlight">ATM, ITM, and OTM strikes</span> to locate potential trading zones.</p>
+  </div>
+
+  <div class="step">
+    <h3>Step 3: Analyze Open Interest</h3>
+    <p>High Call OI = resistance, High Put OI = support. Helps identify key price levels.</p>
+  </div>
+
+  <div class="step">
+    <h3>Step 4: Analyze Volume</h3>
+    <p>Compare volume vs OI to determine momentum. Volume >> OI signals new positions forming.</p>
+  </div>
+
+  <div class="step">
+    <h3>Step 5: Call/Put Ratio (PCR)</h3>
+    <p>PCR = Total Put OI / Total Call OI. Interpretation: PCR &lt; 1 = bullish, PCR &gt; 1 = bearish.</p>
+  </div>
+
+  <div class="step">
+    <h3>Step 6: Check Premiums & Implied Volatility</h3>
+    <p>Higher premiums & IV indicate expected volatility and potential market fear or optimism.</p>
+  </div>
+
+  <div class="step">
+    <h3>Step 7: Identify Support & Resistance from OI</h3>
+    <p>Combine high OI strikes with technical charts to confirm key support/resistance levels.</p>
+  </div>
+
+  <div class="step">
+    <h3>Step 8: Plan Trades</h3>
+    <p>Directional trades, hedges, or spreads can be planned using OI, IV, and PCR data.</p>
+  </div>
+
+  <div class="step">
+    <h3>Step 9: Monitor Intraday Changes</h3>
+    <p>Track OI, volume, and premiums for spikes that indicate institutional activity or momentum shifts.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Option Chain Cheat Sheet Example</h2>
+
+  <table>
+    <tr>
+      <th>Strike Price</th>
+      <th>Call OI</th>
+      <th>Call Price</th>
+      <th>Put Price</th>
+      <th>Put OI</th>
+    </tr>
+    <tr>
+      <td>490</td>
+      <td>800</td>
+      <td>2</td>
+      <td>15</td>
+      <td>1500</td>
+    </tr>
+    <tr>
+      <td>495</td>
+      <td>1200</td>
+      <td>5</td>
+      <td>12</td>
+      <td>1800</td>
+    </tr>
+    <tr>
+      <td>500</td>
+      <td>2500</td>
+      <td>10</td>
+      <td>8</td>
+      <td>3000</td>
+    </tr>
+    <tr>
+      <td>505</td>
+      <td>2000</td>
+      <td>15</td>
+      <td>5</td>
+      <td>1200</td>
+    </tr>
+    <tr>
+      <td>510</td>
+      <td>1500</td>
+      <td>20</td>
+      <td>3</td>
+      <td>900</td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <th>Step</th>
+      <th>What to Look For</th>
+      <th>Key Metric / Example</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>ATM / ITM / OTM</td>
+      <td>Stock = 500, ATM = 500</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Support / Resistance</td>
+      <td>Put OI 500 = 3000 (support), Call OI 500 = 2500 (resistance)</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>PCR</td>
+      <td>0.64 → bullish</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Volume vs OI</td>
+      <td>Volume &lt; OI → stable, Volume &gt;&gt; OI → momentum</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Premium & IV</td>
+      <td>Call IV 20%, Put IV 22% → slight downside fear</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Trade Strategy</td>
+      <td>Bull call spread / hedging</td>
+    </tr>
+  </table>
+</section>
+
+<footer>
+  &copy; 2026 Option Chain Insights. All rights reserved.
+</footer>
+
+</body>
+</html>
