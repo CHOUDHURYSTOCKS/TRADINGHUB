@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Options Strategy Builder</title>
+<link rel="icon" href="logo.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+    padding: 15px;
+    background: #020617;
+}
+
+.container {
+    padding: 20px;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background: #22c55e;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+canvas {
+    background: white;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    📊 Options Strategy Builder (India)
+</header>
+
+<div class="container">
+
+<div class="card">
+    <h3>Create Strategy</h3>
+
+    <label>Option Type</label>
+    <select id="type">
+        <option value="call">Call Buy</option>
+        <option value="put">Put Buy</option>
+    </select>
+
+    <label>Strike Price</label>
+    <input type="number" id="strike" value="20000">
+
+    <label>Premium</label>
+    <input type="number" id="premium" value="100">
+
+    <button onclick="drawGraph()">Generate Payoff</button>
+</div>
+
+<div class="card">
+    <h3>Payoff Graph</h3>
+    <canvas id="chart" width="600" height="300"></canvas>
+</div>
+
+</div>
+
+<script>
+function drawGraph() {
+    let strike = parseFloat(document.getElementById('strike').value);
+    let premium = parseFloat(document.getElementById('premium').value);
+    let type = document.getElementById('type').value;
+
+    let canvas = document.getElementById('chart');
+    let ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 150);
+
+    for (let i = 0; i <= 600; i++) {
+        let price = strike - 300 + i;
+        let profit;
+
+        if (type === "call") {
+            profit = Math.max(0, price - strike) - premium;
+        } else {
+            profit = Math.max(0, strike - price) - premium;
+        }
+
+        let y = 150 - profit;
+        ctx.lineTo(i, y);
+    }
+
+    ctx.strokeStyle = "#22c55e";
+    ctx.stroke();
+}
+</script>
+
+</body>
+</html>

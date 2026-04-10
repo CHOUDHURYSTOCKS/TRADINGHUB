@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Options Trading Pro Tool</title>
+<link rel="icon" href="logo.png">
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #0f172a;
+    color: #f1f5f9;
+}
+
+header {
+    background: linear-gradient(90deg, #2563eb, #1e3a8a);
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+input, select {
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    border-radius: 6px;
+    border: none;
+}
+
+button {
+    padding: 10px;
+    background: #2563eb;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+.result {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #38bdf8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📊 Options Trading Pro Tool</h1>
+    <p>Calculator + Strategy Selector</p>
+</header>
+
+<div class="container">
+
+<!-- Strategy Selector -->
+<div class="card">
+<h2>📊 Strategy Selector</h2>
+
+<select id="marketView">
+    <option value="">Select Market View</option>
+    <option value="bullish">Bullish</option>
+    <option value="bearish">Bearish</option>
+    <option value="sideways">Sideways</option>
+    <option value="volatile">Volatile</option>
+</select>
+
+<button onclick="suggestStrategy()">Suggest Strategy</button>
+
+<div class="result" id="strategyResult"></div>
+</div>
+
+<!-- Profit Calculator -->
+<div class="card">
+<h2>💰 Profit/Loss Calculator</h2>
+
+<input type="number" id="strike" placeholder="Strike Price">
+<input type="number" id="premium" placeholder="Premium Paid">
+<input type="number" id="marketPrice" placeholder="Market Price">
+
+<select id="optionType">
+    <option value="call">Call Option</option>
+    <option value="put">Put Option</option>
+</select>
+
+<button onclick="calculateProfit()">Calculate</button>
+
+<div class="result" id="profitResult"></div>
+</div>
+
+</div>
+
+<script>
+function suggestStrategy() {
+    let view = document.getElementById("marketView").value;
+    let result = "";
+
+    if (view === "bullish") result = "Suggested: Long Call or Bull Call Spread";
+    else if (view === "bearish") result = "Suggested: Long Put or Bear Put Spread";
+    else if (view === "sideways") result = "Suggested: Iron Condor";
+    else if (view === "volatile") result = "Suggested: Straddle or Strangle";
+    else result = "Please select a market view";
+
+    document.getElementById("strategyResult").innerText = result;
+}
+
+function calculateProfit() {
+    let strike = parseFloat(document.getElementById("strike").value);
+    let premium = parseFloat(document.getElementById("premium").value);
+    let market = parseFloat(document.getElementById("marketPrice").value);
+    let type = document.getElementById("optionType").value;
+
+    let profit;
+
+    if (type === "call") {
+        profit = Math.max(0, market - strike) - premium;
+    } else {
+        profit = Math.max(0, strike - market) - premium;
+    }
+
+    document.getElementById("profitResult").innerText =
+        "Profit/Loss: ₹" + profit.toFixed(2);
+}
+</script>
+
+</body>
+</html>

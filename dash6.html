@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pro Option Chain Terminal - NIFTY / SENSEX</title>
+<link rel="icon" href="logo.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin:0;
+    font-family: Arial;
+    background:#0b1220;
+    color:#e5e7eb;
+}
+
+header {
+    background:#0f172a;
+    padding:12px;
+    text-align:center;
+    font-size:18px;
+    color:#38bdf8;
+    font-weight:bold;
+}
+
+.controls {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    padding:10px;
+    flex-wrap:wrap;
+}
+
+select, button {
+    padding:8px;
+    border-radius:6px;
+    border:none;
+    font-weight:bold;
+}
+
+button {
+    background:#22c55e;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover { background:#16a34a; }
+
+.dashboard {
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin:10px;
+}
+
+.card {
+    background:#111827;
+    padding:10px;
+    border-radius:10px;
+    min-width:140px;
+    text-align:center;
+}
+
+.card b { color:#facc15; font-size:18px; }
+
+table {
+    width:95%;
+    margin:10px auto;
+    border-collapse:collapse;
+    background:#111827;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th, td {
+    padding:7px;
+    text-align:center;
+    font-size:12px;
+    border-bottom:1px solid #1f2937;
+}
+
+th {
+    background:#0b1220;
+    color:#38bdf8;
+    position:sticky;
+    top:0;
+}
+
+.call { color:#22c55e; }
+.put { color:#ef4444; }
+
+.atm {
+    background:rgba(56,189,248,0.15);
+}
+
+canvas {
+    display:block;
+    margin:10px auto;
+    background:#0f172a;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>🔥 PRO OPTION CHAIN TERMINAL (NIFTY / SENSEX)</header>
+
+<div class="controls">
+    <select id="symbol">
+        <option>NIFTY</option>
+        <option>SENSEX</option>
+    </select>
+    <button onclick="start()">Start Live</button>
+    <button onclick="stop()">Stop</button>
+</div>
+
+<div class="dashboard">
+    <div class="card">Spot<br><b id="spot">0</b></div>
+    <div class="card">PCR<br><b id="pcr">0</b></div>
+    <div class="card">Max Pain<br><b id="mp">0</b></div>
+    <div class="card">Signal<br><b id="signal">Neutral</b></div>
+</div>
+
+<canvas id="chart" width="900" height="180"></canvas>
+
+<table>
+<thead>
+<tr>
+<th>CALL OI</th>
+<th>CALL LTP</th>
+<th>STRIKE</th>
+<th>PUT LTP</th>
+<th>PUT OI</th>
+</tr>
+</thead>
+<tbody id="tbl"></tbody>
+</table>
+
+<script>
+
+let spot = 22500;
+let timer;
+let history = [];
+
+function rnd(a,b){ return Math.floor(Math.random()*(b-a)+a); }
+
+// generate chain
+function chain(){
+    let arr=[];
+    for(let i=-10;i<=10;i++){
+        let strike = spot + i*50;
+
+        let ceOI = rnd(2000,20000);
+        let peOI = rnd(2000,20000);
+
+        let ceLTP = (rnd(50,400)/Math.abs(i||1)).toFixed(2);
+        let peLTP = (rnd(50,400)/Math.abs(i||1)).toFixed(2);
+
+        arr.push({strike,ceOI,peOI,ceLTP,peLTP});
+    }
+    return arr;
+}
+
+// PCR
+function pcr(data){
+    let pe = data.reduce((a,b)=>a+b.peOI,0);
+    let ce = data.reduce((a,b)=>a+b.ceOI,0);
+    return (pe/ce).toFixed(2);
+}
+
+// Max pain (simple)
+function maxPain(data){
+    return data.reduce((a,b)=>
+        Math.abs(b.ceOI-b.peOI)<Math.abs(a.ceOI-a.peOI)?b:a
+    ).strike;
+}
+
+// signal engine
+function signal(data){
+    let ce = data.reduce((a,b)=>a+b.ceOI,0);
+    let pe = data.reduce((a,b)=>a+b.peOI,0);
+
+    if(pe>ce*1.2) return "📈 Bullish Build-up";
+    if(ce>pe*1.2) return "📉 Bearish Build-up";
+    return "⚖️ Neutral";
+}
+
+// render table
+function render(){
+    let data = chain();
+
+    document.getElementById("spot").innerText = spot;
+    document.getElementById("pcr").innerText = pcr(data);
+    document.getElementById("mp").innerText = maxPain(data);
+    document.getElementById("signal").innerText = signal(data);
+
+    let tbody=document.getElementById("tbl");
+    tbody.innerHTML="";
+
+    let atm = maxPain(data);
+
+    data.forEach(d=>{
+        tbody.innerHTML+=`
+        <tr class="${d.strike==atm?'atm':''}">
+            <td class="call">${d.ceOI}</td>
+            <td class="call">${d.ceLTP}</td>
+            <td>${d.strike}</td>
+            <td class="put">${d.peLTP}</td>
+            <td class="put">${d.peOI}</td>
+        </tr>`;
+    });
+
+    spot += rnd(-80,80);
+
+    history.push(spot);
+    if(history.length>50) history.shift();
+
+    drawChart();
+}
+
+// mini chart
+function drawChart(){
+    let c=document.getElementById("chart");
+    let ctx=c.getContext("2d");
+
+    ctx.clearRect(0,0,c.width,c.height);
+
+    ctx.strokeStyle="#38bdf8";
+    ctx.beginPath();
+
+    let max=Math.max(...history);
+    let min=Math.min(...history);
+
+    history.forEach((p,i)=>{
+        let x=i*(c.width/history.length);
+        let y=c.height-((p-min)/(max-min||1))*c.height;
+
+        if(i==0) ctx.moveTo(x,y);
+        else ctx.lineTo(x,y);
+    });
+
+    ctx.stroke();
+}
+
+function start(){
+    if(timer) return;
+    timer=setInterval(render,1500);
+    render();
+}
+
+function stop(){
+    clearInterval(timer);
+    timer=null;
+}
+
+</script>
+
+</body>
+</html>

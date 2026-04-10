@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pro Option Chain Dashboard</title>
+<link rel="icon" href="logo.png">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    margin:0;
+    font-family: Arial;
+    background:#0b1220;
+    color:#e5e7eb;
+}
+
+header {
+    padding:15px;
+    background:#111827;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.container {
+    display:flex;
+    gap:10px;
+    padding:10px;
+}
+
+.box {
+    background:#111827;
+    padding:10px;
+    border-radius:10px;
+}
+
+.left { width:65%; }
+.right { width:35%; }
+
+table {
+    width:100%;
+    border-collapse: collapse;
+    font-size:12px;
+}
+
+th, td {
+    border:1px solid #374151;
+    padding:5px;
+    text-align:center;
+}
+
+th { background:#1f2937; }
+
+button {
+    padding:8px;
+    margin:5px;
+    background:#2563eb;
+    border:none;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.status {
+    font-size:12px;
+    color:#9ca3af;
+}
+</style>
+</head>
+
+<body>
+
+<header>📊 Pro Option Chain Dashboard (Live Ready)</header>
+
+<div class="container">
+
+<!-- LEFT -->
+<div class="box left">
+
+<h3>Option Chain</h3>
+
+<button onclick="loadData()">🔄 Refresh</button>
+<span class="status" id="status">Waiting for data...</span>
+
+<table>
+<thead>
+<tr>
+<th>CE OI</th>
+<th>CE LTP</th>
+<th>Strike</th>
+<th>PE LTP</th>
+<th>PE OI</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+
+</div>
+
+<!-- RIGHT -->
+<div class="box right">
+
+<h3>Market Analysis</h3>
+<div id="analysis"></div>
+
+<canvas id="pcrChart"></canvas>
+
+</div>
+
+</div>
+
+<script>
+
+// -----------------------------
+// MOCK LIVE DATA (Replace API)
+// -----------------------------
+function fetchOptionChain(){
+    return new Promise(resolve => {
+
+        setTimeout(() => {
+
+            let base = 22200;
+
+            let data = [];
+
+            for(let i=-5;i<=5;i++){
+                data.push({
+                    strike: base + (i*100),
+                    ceOi: Math.floor(Math.random()*40000),
+                    ceLtp: Math.floor(Math.random()*100),
+                    peLtp: Math.floor(Math.random()*120),
+                    peOi: Math.floor(Math.random()*40000)
+                });
+            }
+
+            resolve(data);
+
+        }, 800);
+    });
+}
+
+// -----------------------------
+// GLOBAL DATA
+// -----------------------------
+let globalData = [];
+
+// -----------------------------
+// LOAD DATA
+// -----------------------------
+async function loadData(){
+    document.getElementById("status").innerText = "Loading...";
+
+    globalData = await fetchOptionChain();
+
+    render(globalData);
+
+    document.getElementById("status").innerText =
+        "Last updated: " + new Date().toLocaleTimeString();
+}
+
+// -----------------------------
+// RENDER TABLE
+// -----------------------------
+function render(data){
+    let tbody = document.getElementById("tbody");
+    tbody.innerHTML = "";
+
+    data.forEach(d=>{
+        tbody.innerHTML += `
+        <tr>
+            <td>${d.ceOi}</td>
+            <td>${d.ceLtp}</td>
+            <td><b>${d.strike}</b></td>
+            <td>${d.peLtp}</td>
+            <td>${d.peOi}</td>
+        </tr>`;
+    });
+
+    analyze(data);
+    drawChart(data);
+}
+
+// -----------------------------
+// ANALYSIS ENGINE
+// -----------------------------
+function analyze(data){
+
+    let ce = data.reduce((a,b)=>a+b.ceOi,0);
+    let pe = data.reduce((a,b)=>a+b.peOi,0);
+
+    let pcr = (pe/ce).toFixed(2);
+
+    let maxCall = data.reduce((a,b)=>a.ceOi>b.ceOi?a:b);
+    let maxPut = data.reduce((a,b)=>a.peOi>b.peOi?a:b);
+
+    let maxPain = calculateMaxPain(data);
+
+    document.getElementById("analysis").innerHTML = `
+        <p><b>📌 PCR:</b> ${pcr}</p>
+        <p><b>📌 Total CE OI:</b> ${ce}</p>
+        <p><b>📌 Total PE OI:</b> ${pe}</p>
+        <p><b>📌 Resistance:</b> ${maxCall.strike}</p>
+        <p><b>📌 Support:</b> ${maxPut.strike}</p>
+        <p><b>📌 Max Pain:</b> ${maxPain}</p>
+        <hr>
+        <p><b>Signal:</b> ${pcr > 1 ? "🟢 Bullish Bias" : "🔴 Bearish Bias"}</p>
+    `;
+}
+
+// -----------------------------
+// MAX PAIN CALCULATION
+// -----------------------------
+function calculateMaxPain(data){
+
+    let strikes = data.map(d=>d.strike);
+
+    let minPain = Infinity;
+    let bestStrike = 0;
+
+    strikes.forEach(k=>{
+        let pain = 0;
+
+        data.forEach(d=>{
+            pain += Math.max(0, d.ceOi * Math.max(0, d.strike - k));
+            pain += Math.max(0, d.peOi * Math.max(0, k - d.strike));
+        });
+
+        if(pain < minPain){
+            minPain = pain;
+            bestStrike = k;
+        }
+    });
+
+    return bestStrike;
+}
+
+// -----------------------------
+// CHART (PCR VISUAL)
+// -----------------------------
+function drawChart(data){
+
+    let labels = data.map(d=>d.strike);
+    let ce = data.map(d=>d.ceOi);
+    let pe = data.map(d=>d.peOi);
+
+    if(window.myChart) window.myChart.destroy();
+
+    window.myChart = new Chart(
+        document.getElementById("pcrChart"),
+        {
+            type:'bar',
+            data:{
+                labels: labels,
+                datasets:[
+                    {
+                        label:"CE OI",
+                        data:ce,
+                        backgroundColor:"#3b82f6"
+                    },
+                    {
+                        label:"PE OI",
+                        data:pe,
+                        backgroundColor:"#10b981"
+                    }
+                ]
+            }
+        }
+    );
+}
+
+// AUTO REFRESH (LIVE MODE)
+setInterval(loadData, 10000);
+
+// INIT
+loadData();
+
+</script>
+
+</body>
+</html>

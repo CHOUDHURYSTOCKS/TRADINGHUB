@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Institutional Option Terminal</title>
+<link rel="icon" href="logo.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin:0;
+    background:#070b14;
+    color:#d1d5db;
+    font-family:Arial;
+}
+
+header {
+    padding:12px;
+    text-align:center;
+    background:#0f172a;
+    color:#38bdf8;
+    font-weight:bold;
+}
+
+.panel {
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    padding:10px;
+}
+
+.box {
+    background:#111827;
+    padding:10px;
+    border-radius:10px;
+    min-width:140px;
+    text-align:center;
+}
+
+.box b { color:#facc15; }
+
+table {
+    width:96%;
+    margin:auto;
+    border-collapse:collapse;
+    background:#0f172a;
+}
+
+th,td {
+    padding:6px;
+    font-size:12px;
+    text-align:center;
+    border-bottom:1px solid #1f2937;
+}
+
+th { color:#38bdf8; }
+
+.call { color:#22c55e; }
+.put { color:#ef4444; }
+
+.atm { background:rgba(56,189,248,0.12); }
+
+.heat-low { background:#052e16; }
+.heat-med { background:#78350f; }
+.heat-high { background:#7f1d1d; }
+
+canvas {
+    display:block;
+    margin:10px auto;
+    background:#0f172a;
+    border-radius:10px;
+}
+
+button,select {
+    padding:8px;
+    border-radius:6px;
+    border:none;
+    font-weight:bold;
+}
+button { background:#22c55e; color:white; }
+
+</style>
+</head>
+
+<body>
+
+<header>🏛️ INSTITUTIONAL OPTIONS TERMINAL (PRO PROP DESK VIEW)</header>
+
+<div class="panel">
+<select id="symbol">
+<option>NIFTY</option>
+<option>SENSEX</option>
+</select>
+
+<button onclick="start()">Start Feed</button>
+<button onclick="stop()">Stop</button>
+
+<div class="box">Spot<br><b id="spot">0</b></div>
+<div class="box">PCR<br><b id="pcr">0</b></div>
+<div class="box">Trend<br><b id="trend">Neutral</b></div>
+<div class="box">Volatility<br><b id="vol">0</b></div>
+<div class="box">Signal<br><b id="signal">WAIT</b></div>
+</div>
+
+<canvas id="chart" width="900" height="170"></canvas>
+
+<table>
+<thead>
+<tr>
+<th>CE OI</th>
+<th>CE LTP</th>
+<th>STRIKE</th>
+<th>PE LTP</th>
+<th>PE OI</th>
+<th>GREEKS (Δ Γ Θ V)</th>
+</tr>
+</thead>
+<tbody id="t"></tbody>
+</table>
+
+<script>
+
+let spot = 22500;
+let timer;
+let hist = [];
+
+function r(a,b){ return Math.random()*(b-a)+a; }
+function ri(a,b){ return Math.floor(r(a,b)); }
+
+// option chain
+function chain(){
+    let arr=[];
+    for(let i=-10;i<=10;i++){
+        let strike = spot + i*50;
+
+        let ceOI = ri(2000,25000);
+        let peOI = ri(2000,25000);
+
+        let iv = r(10,30);
+
+        arr.push({
+            strike,
+            ceOI,
+            peOI,
+            ceLTP:(r(50,400)/(Math.abs(i)+1)).toFixed(2),
+            peLTP:(r(50,400)/(Math.abs(i)+1)).toFixed(2),
+
+            // synthetic Greeks
+            delta:(r(-0.8,0.8)).toFixed(2),
+            gamma:(r(0,0.2)).toFixed(3),
+            theta:(r(-20,-1)).toFixed(1),
+            vega:(r(5,20)).toFixed(1),
+
+            iv:iv
+        });
+    }
+    return arr;
+}
+
+// PCR
+function pcr(d){
+    let pe=d.reduce((a,b)=>a+b.peOI,0);
+    let ce=d.reduce((a,b)=>a+b.ceOI,0);
+    return (pe/ce).toFixed(2);
+}
+
+// trend strength
+function trend(d){
+    let ce=d.reduce((a,b)=>a+b.ceOI,0);
+    let pe=d.reduce((a,b)=>a+b.peOI,0);
+
+    if(pe>ce*1.25) return "📈 STRONG BULL";
+    if(ce>pe*1.25) return "📉 STRONG BEAR";
+    if(pe>ce) return "Bullish Bias";
+    if(ce>pe) return "Bearish Bias";
+    return "Neutral";
+}
+
+// volatility index
+function vol(d){
+    return (d.reduce((a,b)=>a+b.iv,0)/d.length).toFixed(2);
+}
+
+// support/resistance
+function levels(d){
+    let maxCall = d.reduce((a,b)=>b.ceOI>a.ceOI?b:a);
+    let maxPut = d.reduce((a,b)=>b.peOI>a.peOI?b:a);
+    return {res:maxCall.strike,sup:maxPut.strike};
+}
+
+// signal engine
+function signal(d){
+    let ce=d.reduce((a,b)=>a+b.ceOI,0);
+    let pe=d.reduce((a,b)=>a+b.peOI,0);
+
+    if(pe>ce*1.3) return "LONG SETUP 📈";
+    if(ce>pe*1.3) return "SHORT SETUP 📉";
+    return "NO TRADE ⏳";
+}
+
+// render
+function render(){
+    let d=chain();
+
+    document.getElementById("spot").innerText=spot;
+    document.getElementById("pcr").innerText=pcr(d);
+    document.getElementById("trend").innerText=trend(d);
+    document.getElementById("vol").innerText=vol(d);
+    document.getElementById("signal").innerText=signal(d);
+
+    let lvl=levels(d);
+
+    let t=document.getElementById("t");
+    t.innerHTML="";
+
+    let atm=lvl.res;
+
+    d.forEach(x=>{
+
+        let heat = x.ceOI>18000||x.peOI>18000
+        ? "heat-high"
+        : x.ceOI>10000||x.peOI>10000
+        ? "heat-med"
+        : "heat-low";
+
+        t.innerHTML+=`
+        <tr class="${x.strike==atm?'atm':''} ${heat}">
+            <td class="call">${x.ceOI}</td>
+            <td class="call">${x.ceLTP}</td>
+            <td>${x.strike}</td>
+            <td class="put">${x.peLTP}</td>
+            <td class="put">${x.peOI}</td>
+            <td>Δ${x.delta} Γ${x.gamma} Θ${x.theta} V${x.vega}</td>
+        </tr>`;
+    });
+
+    spot += ri(-90,90);
+
+    hist.push(spot);
+    if(hist.length>60) hist.shift();
+
+    draw();
+}
+
+// chart
+function draw(){
+    let c=document.getElementById("chart");
+    let ctx=c.getContext("2d");
+
+    ctx.clearRect(0,0,c.width,c.height);
+
+    let max=Math.max(...hist);
+    let min=Math.min(...hist);
+
+    ctx.strokeStyle="#38bdf8";
+    ctx.beginPath();
+
+    hist.forEach((p,i)=>{
+        let x=i*(c.width/hist.length);
+        let y=c.height-((p-min)/(max-min||1))*c.height;
+
+        i==0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+
+    ctx.stroke();
+}
+
+function start(){
+    if(timer) return;
+    timer=setInterval(render,1200);
+    render();
+}
+
+function stop(){
+    clearInterval(timer);
+    timer=null;
+}
+
+</script>
+
+</body>
+</html>

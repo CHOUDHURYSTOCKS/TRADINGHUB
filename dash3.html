@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Option Chain Analyzer</title>
+<link rel="icon" href="logo.png">
+<style>
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: #e2e8f0;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #1e293b;
+    padding: 15px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
+
+.panel {
+    background: #111827;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.left {
+    width: 70%;
+}
+
+.right {
+    width: 30%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+th, td {
+    border: 1px solid #334155;
+    padding: 5px;
+    text-align: center;
+}
+
+th {
+    background: #1e293b;
+}
+
+button {
+    padding: 8px;
+    margin: 5px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+input {
+    padding: 6px;
+    margin: 5px;
+    width: 120px;
+}
+</style>
+</head>
+
+<body>
+
+<header>📊 Option Chain Analyzer (Step-by-Step)</header>
+
+<div class="container">
+
+<!-- LEFT PANEL -->
+<div class="panel left">
+
+<h3>Option Chain</h3>
+
+<input id="strikeFilter" placeholder="Min Strike" />
+<input id="strikeFilter2" placeholder="Max Strike" />
+<button onclick="filterData()">Filter</button>
+<button onclick="resetData()">Reset</button>
+
+<table id="optionTable">
+<thead>
+<tr>
+<th>CE OI</th>
+<th>CE LTP</th>
+<th>Strike</th>
+<th>PE LTP</th>
+<th>PE OI</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="panel right">
+
+<h3>Step-by-Step Analysis</h3>
+
+<div id="analysis"></div>
+
+</div>
+
+</div>
+
+<script>
+// ----------------------
+// SAMPLE OPTION CHAIN DATA
+// ----------------------
+let optionData = [
+ {ceOi: 12000, ceLtp: 45, strike: 22000, peLtp: 40, peOi: 15000},
+ {ceOi: 18000, ceLtp: 30, strike: 22100, peLtp: 55, peOi: 17000},
+ {ceOi: 25000, ceLtp: 20, strike: 22200, peLtp: 80, peOi: 14000},
+ {ceOi: 30000, ceLtp: 10, strike: 22300, peLtp: 120, peOi: 10000},
+ {ceOi: 20000, ceLtp: 60, strike: 22400, peLtp: 25, peOi: 22000},
+];
+
+// ----------------------
+// RENDER TABLE
+// ----------------------
+function renderTable(data){
+    const tbody = document.querySelector("#optionTable tbody");
+    tbody.innerHTML = "";
+
+    data.forEach(row => {
+        tbody.innerHTML += `
+        <tr>
+            <td>${row.ceOi}</td>
+            <td>${row.ceLtp}</td>
+            <td><b>${row.strike}</b></td>
+            <td>${row.peLtp}</td>
+            <td>${row.peOi}</td>
+        </tr>`;
+    });
+
+    analyze(data);
+}
+
+// ----------------------
+// STEP BY STEP ANALYSIS
+// ----------------------
+function analyze(data){
+
+    if(data.length === 0) return;
+
+    let totalCE = data.reduce((a,b)=>a+b.ceOi,0);
+    let totalPE = data.reduce((a,b)=>a+b.peOi,0);
+
+    let pcr = (totalPE / totalCE).toFixed(2);
+
+    let atm = data[Math.floor(data.length/2)].strike;
+
+    let strongestCall = data.reduce((a,b)=> a.ceOi>b.ceOi?a:b);
+    let strongestPut = data.reduce((a,b)=> a.peOi>b.peOi?a:b);
+
+    document.getElementById("analysis").innerHTML = `
+        <p><b>Step 1:</b> Identify ATM Strike → ${atm}</p>
+        <p><b>Step 2:</b> Total CE OI → ${totalCE}</p>
+        <p><b>Step 3:</b> Total PE OI → ${totalPE}</p>
+        <p><b>Step 4:</b> PCR (PE/CE) → ${pcr}</p>
+        <p><b>Step 5:</b> Strong Resistance (Max CE OI) → ${strongestCall.strike}</p>
+        <p><b>Step 6:</b> Strong Support (Max PE OI) → ${strongestPut.strike}</p>
+        <hr/>
+        <p><b>Interpretation:</b></p>
+        <p>${pcr > 1 ? "Bullish sentiment (more puts)" : "Bearish sentiment (more calls)"}</p>
+    `;
+}
+
+// ----------------------
+// FILTER FUNCTIONS
+// ----------------------
+function filterData(){
+    let min = Number(document.getElementById("strikeFilter").value) || 0;
+    let max = Number(document.getElementById("strikeFilter2").value) || 999999;
+
+    let filtered = optionData.filter(d => d.strike >= min && d.strike <= max);
+    renderTable(filtered);
+}
+
+function resetData(){
+    renderTable(optionData);
+}
+
+// INIT
+renderTable(optionData);
+</script>
+
+</body>
+</html>
