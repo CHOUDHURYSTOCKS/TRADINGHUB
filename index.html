@@ -1,128 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRADING HUB</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #0f172a;
-            color: #e2e8f0;
-        }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Segoe UI", sans-serif;
+}
 
-        /* NAVIGATION BAR */
-        .navbar {
-            background-color: #1e293b;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-        }
+body{
+  background:#05060a;
+  color:#fff;
+  overflow-x:hidden;
+}
 
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-            color: #38bdf8;
-        }
+/* ===== GRID BACKGROUND ===== */
+body::before{
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:
+    linear-gradient(rgba(0,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.05) 1px, transparent 1px);
+  background-size:50px 50px;
+  z-index:-2;
+}
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
+/* glow orbs */
+.orb{
+  position:absolute;
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  filter:blur(70px);
+  opacity:0.5;
+  animation: float 6s ease-in-out infinite;
+}
 
-        .nav-links li {
-            display: inline;
-        }
+.orb1{
+  background:#00f5ff;
+  top:80px;
+  left:80px;
+}
 
-        .nav-links a {
-            text-decoration: none;
-            color: #e2e8f0;
-            transition: 0.3s;
-        }
+.orb2{
+  background:#7c3aed;
+  bottom:80px;
+  right:80px;
+}
 
-        .nav-links a:hover {
-            color: #38bdf8;
-        }
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-30px);}
+}
 
-        /* HEADER */
-        .header {
-            text-align: center;
-            padding: 60px 20px;
-        }
+/* ===== TOP BAR ===== */
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 30px;
+  border-bottom:1px solid rgba(0,255,255,0.2);
+}
 
-        .header h1 {
-            font-size: 48px;
-            color: #38bdf8;
-        }
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:22px;
+  font-weight:bold;
+  color:#00f5ff;
+  letter-spacing:2px;
+}
 
-        .header p {
-            font-size: 18px;
-            color: #94a3b8;
-        }
+.logo-dot{
+  width:12px;
+  height:12px;
+  background:#00f5ff;
+  border-radius:50%;
+  box-shadow:0 0 15px #00f5ff;
+  animation:pulse 1.5s infinite;
+}
 
-        /* CONTENT */
-        .content {
-            padding: 40px;
-            max-width: 1000px;
-            margin: auto;
-        }
+@keyframes pulse{
+  0%,100%{opacity:1; transform:scale(1);}
+  50%{opacity:0.4; transform:scale(1.4);}
+}
 
-        .card {
-            background: #1e293b;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-        }
+/* NAV */
+nav a{
+  color:white;
+  margin:0 10px;
+  text-decoration:none;
+  opacity:0.7;
+  transition:0.3s;
+}
 
-        .card h2 {
-            color: #38bdf8;
-        }
-    </style>
+nav a:hover{
+  opacity:1;
+  color:#00f5ff;
+}
+
+/* ===== DROPDOWN ===== */
+.dropdown{
+  position:relative;
+  display:inline-block;
+}
+
+.dropbtn{
+  background:transparent;
+  border:1px solid #00f5ff;
+  color:#00f5ff;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.dropbtn:hover{
+  box-shadow:0 0 15px #00f5ff;
+}
+
+.dropdown-content{
+  display:none;
+  position:absolute;
+  right:0;
+  top:40px;
+  background:#0b0f1a;
+  border:1px solid #00f5ff;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.dropdown-content a{
+  display:block;
+  padding:10px;
+  color:white;
+  text-decoration:none;
+}
+
+.dropdown-content a:hover{
+  background:#00f5ff;
+  color:#000;
+}
+
+.dropdown:hover .dropdown-content{
+  display:block;
+}
+
+/* ===== HERO ===== */
+.hero{
+  text-align:center;
+  padding:70px 20px;
+}
+
+.hero h1{
+  font-size:55px;
+  color:#00f5ff;
+  text-shadow:0 0 20px #00f5ff;
+}
+
+.hero p{
+  max-width:600px;
+  margin:15px auto;
+  opacity:0.8;
+}
+
+/* BUTTONS */
+.btns{
+  margin-top:20px;
+}
+
+.btn{
+  padding:12px 18px;
+  margin:5px;
+  border:1px solid #00f5ff;
+  background:transparent;
+  color:#00f5ff;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  background:#00f5ff;
+  color:#000;
+  box-shadow:0 0 20px #00f5ff;
+}
+
+/* ===== PANELS ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  padding:40px;
+}
+
+.panel{
+  background:rgba(0,255,255,0.05);
+  border:1px solid rgba(0,255,255,0.2);
+  padding:20px;
+  border-radius:12px;
+  transition:0.3s;
+}
+
+.panel:hover{
+  transform:translateY(-5px);
+  box-shadow:0 0 25px rgba(0,255,255,0.3);
+}
+
+.panel h3{
+  color:#00f5ff;
+  margin-bottom:10px;
+}
+</style>
 </head>
 
 <body>
 
-    <!-- NAVIGATION BAR -->
-    <div class="navbar">
-        <div class="logo">TRADING HUB</div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Options Trading</a></li>
-            <li><a href="#">Strategies</a></li>
-            <li><a href="#">Markets</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
+<!-- GLOW ORBS -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    TRADING HUB
+  </div>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Markets</a>
+    <a href="#">Learn</a>
+    <a href="#">Tools</a>
+
+    <div class="dropdown">
+      <button class="dropbtn">Explore</button>
+      <div class="dropdown-content">
+        <a href="OP1.html" target="_blank">OPTION BASICS</a>
+        <a href="OP2.html" target="_blank">STRATEGIES</a>
+        <a href="OP3.html" target="_blank">STRATEGIES</a>
+        <a href="A1.html" target="_blank">DASHBOARD</a>
+      </div>
     </div>
+  </nav>
+</div>
 
-    <!-- HEADER -->
-    <div class="header">
-        <h1>TRADING HUB</h1>
-        <p>Learn Options Trading, Strategies & Market Basics</p>
-    </div>
+<!-- HERO -->
+<section class="hero">
+  <h1>TRADING HUB</h1>
+  <p>
+    Master Options Trading from beginner to advanced level with structured learning,
+    strategies, and risk control systems.
+  </p>
 
-    <!-- CONTENT -->
-    <div class="content">
+  <div class="btns">
+    <button class="btn">Start</button>
+    <button class="btn">Learn Options</button>
+    <button class="btn">Strategy Lab</button>
+  </div>
+</section>
 
-        <div class="card">
-            <h2>What is Options Trading?</h2>
-            <p>Options trading allows investors to trade contracts that derive value from underlying assets like stocks.</p>
-        </div>
+<!-- CONTENT -->
+<div class="grid">
 
-        <div class="card">
-            <h2>Call & Put Options</h2>
-            <p>Call options are used when expecting price rise, while put options are used when expecting price fall.</p>
-        </div>
+  <div class="panel">
+    <h3>Options Basics</h3>
+    <p>Calls = right to buy. Puts = right to sell before expiry date.</p>
+  </div>
 
-        <div class="card">
-            <h2>Key Terminology</h2>
-            <p>Strike price, premium, expiry date, Greeks, IV, OI, and volume are essential concepts in options trading.</p>
-        </div>
+  <div class="panel">
+    <h3>Market Structure</h3>
+    <p>Understand volatility, liquidity, premiums, and time decay.</p>
+  </div>
 
-    </div>
+  <div class="panel">
+    <h3>Advanced Strategies</h3>
+    <p>Iron condors, straddles, spreads and probability-based trading systems.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Risk System</h3>
+    <p>Capital protection, hedging, and disciplined position sizing.</p>
+  </div>
+
+</div>
 
 </body>
 </html>
